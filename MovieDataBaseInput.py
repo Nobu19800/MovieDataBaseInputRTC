@@ -44,9 +44,13 @@ moviedatabaseinput_spec = ["implementation_id", "MovieDataBaseInput",
 		 "max_instance",      "1", 
 		 "language",          "Python", 
 		 "lang_type",         "SCRIPT",
-                 "conf.default.path", "localhost\\CapturePresentation0",
+                 "conf.default.captureRTCPath", "localhost\\CapturePresentation0",
                  "conf.default.name", "Presentation1",
-                 "conf.default.port_name", "image", 
+                 "conf.default.cameraImage", "image",
+                 "conf.default.presentationRTCPath", "None",
+                 "conf.default.slideNumberIn", "SlideNumberIn",
+                 "conf.default.effectNumberIn", "EffectNumberIn",
+                 "conf.default.pen", "Pen",
 		 ""]
 # </rtc-template>
 
@@ -75,9 +79,13 @@ class MovieDataBaseInput(OpenRTM_aist.DataFlowComponentBase):
 		"""
 		self._database = OpenRTM_aist.CorbaConsumer(interfaceType=DataBase.mDataBase)
 
-                self.m_path = ["localhost\\CapturePresentation0"]
+                self.m_captureRTCPath = ["localhost\\CapturePresentation0"]
                 self.m_name = ["Presentation1"]
-                self.m_port_name = ["image"]
+                self.m_cameraImage = ["image"]
+                self.m_presentationRTCPath = ["None"]
+                self.m_slideNumberIn = ["SlideNumberIn"]
+                self.m_effectNumberIn = ["EffectNumberIn"]
+                self.m_pen = ["Pen"]
 		# initialize of configuration-data.
 		# <rtc-template block="init_conf_param">
 		
@@ -108,9 +116,16 @@ class MovieDataBaseInput(OpenRTM_aist.DataFlowComponentBase):
 		# Set CORBA Service Ports
 		self.addPort(self._DataBasePort)
 
-		self.bindParameter("path", self.m_path, "localhost\\CapturePresentation0")
+		self.bindParameter("captureRTCPath", self.m_captureRTCPath, "localhost\\CapturePresentation0")
                 self.bindParameter("name", self.m_name, "Presentation1")
-                self.bindParameter("port_name", self.m_port_name, "image")
+                self.bindParameter("cameraImage", self.m_cameraImage, "image")
+                self.bindParameter("presentationRTCPath", self.m_presentationRTCPath, "None")
+                self.bindParameter("slideNumberIn", self.m_slideNumberIn, "SlideNumberIn")
+                self.bindParameter("effectNumberIn", self.m_effectNumberIn, "EffectNumberIn")
+                self.bindParameter("pen", self.m_pen, "Pen")
+
+
+                
 		
 		return RTC.RTC_OK
 	
@@ -172,13 +187,21 @@ class MovieDataBaseInput(OpenRTM_aist.DataFlowComponentBase):
                         if f1 == False:
                                 return RTC.RTC_ERROR
                         
-                        sql = "INSERT INTO LIST(NAME, PATH, CAMERAIMAGE) VALUES("
+                        sql = "INSERT INTO LIST(NAME, CAPTURERTCPATH, CAMERAIMAGE, PRESENTATIONRTC, SLIDENUMBERIN, EFFECTNUMBERIN,PEN) VALUES("
                         sql += "'"
                         sql += self.m_name[0]
                         sql += "', '"
-                        sql += self.m_path[0]
+                        sql += self.m_captureRTCPath[0]
                         sql += "', '"
-                        sql += self.m_port_name[0]
+                        sql += self.m_cameraImage[0]
+                        sql += "', '"
+                        sql += self.m_presentationRTCPath[0]
+                        sql += "', '"
+                        sql += self.m_slideNumberIn[0]
+                        sql += "', '"
+                        sql += self.m_effectNumberIn[0]
+                        sql += "', '"
+                        sql += self.m_pen[0]
                         sql += "'"
                         sql += ")"
                         
